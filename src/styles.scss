@@ -1,1 +1,75 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '~ngx-toastr/toastr.css';
+html,
+body {
+  height: 100%;
+}
+
+html {
+  background-color: #fafafa;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-drawer-container {
+  background-color: transparent;
+}
+
+.demo-party {
+  background-color: #1976d2; // animation: demo-party 5000ms infinite;
+}
+
+@keyframes demo-party {
+  0% {
+    background: #00f;
+  }
+  10% {
+    background: #8e44ad;
+  }
+  20% {
+    background: #1abc9c;
+  }
+  30% {
+    background: #d35400;
+  }
+  40% {
+    background: #00f;
+  }
+  50% {
+    background: #34495e;
+  }
+  60% {
+    background: #00f;
+  }
+  70% {
+    background: #2980b9;
+  }
+  80% {
+    background: #f1c40f;
+  }
+  90% {
+    background: #2980b9;
+  }
+  100% {
+    background: #0ff;
+  }
+}
+
+.toast-container .toast {
+  box-shadow: none;
+}
+
+.video-panel {
+  padding: 0;
+  .mat-dialog-container {
+    padding: 0;
+    border-radius: 0;
+    video {
+      display: block;
+    }
+  }
+}

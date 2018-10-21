@@ -1,0 +1,16 @@
+<div class="card-wrapper" *ngIf="data && data.length" fxLayout="row wrap" fxLayoutAlign="start space-between">
+  <div class="card" *ngFor="let item of data">
+    <mat-card matRipple [routerLink]="['/detail', item.assetid]">
+      <img mat-card-image [src]="item.img_url" alt="Photo of a Shiba Inu">
+      <div class="info">
+        <h1>
+          {{item.title}}
+          <span class="price">{{item.price}}XEM</span>
+        </h1>
+        <p class="desc">
+          <span class="id">{{item.assetid}}</span>
+        </p>
+      </div>
+    </mat-card>
+  </div>
+</div>

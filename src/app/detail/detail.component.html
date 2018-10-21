@@ -1,0 +1,79 @@
+<div class="backdrop"></div>
+<div class="detail" *ngIf="data$ | async as data">
+  <div class="card">
+    <mat-card>
+      <img mat-card-image [src]="data.img_url" alt="Photo of a Shiba Inu">
+      <div class="play-button">
+        <button mat-button (click)="showVideo()">
+          <mat-icon>play_circle_filled</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+    <h2>{{data.title}}</h2>
+    <mat-list>
+      <mat-list-item class="desc copy" [attr.data-clipboard-text]="data.assetid" (click)="onShowMessage('复制成功')">
+        <h3 mat-line>NEM资产编号</h3>
+        <p mat-line class="secondary-text">
+          <mat-icon style="font-size:12px;width: 12px;height: 12px;vertical-align: text-bottom;">file_copy</mat-icon>
+          {{data.assetid}}
+        </p>
+      </mat-list-item>
+      <mat-list-item class="desc">
+        <h3 mat-line>作者</h3>
+        <p mat-line class="secondary-text">{{data.author}}</p>
+      </mat-list-item>
+      <mat-list-item class="desc">
+        <h3 mat-line>价格</h3>
+        <p mat-line class="secondary-text">{{data.price}} XEM</p>
+      </mat-list-item>
+      <mat-list-item class="desc">
+        <h3 mat-line>创建时间</h3>
+        <p mat-line class="secondary-text">{{data.create_time + '000' | date:'short'}}</p>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <button mat-raised-button *ngIf="user && user.id === data.user_id" class="compare_cart" (click)="handleTransform()">
+    <mat-icon>compare_arrows</mat-icon>
+    <span>转让</span>
+  </button>
+  <button mat-raised-button *ngIf="user && user.id !== data.user_id" class="shopping_cart" color="accent" (click)="handleShop()">
+    <mat-icon>shopping_cart</mat-icon>
+    <span>购买</span>
+  </button>
+  <button mat-raised-button *ngIf="!user || !user.id" class="login_cart" color="primary" (click)="onLogin()">
+    <mat-icon>person</mat-icon>
+    <span>登陆</span>
+  </button>
+  <ng-template #dialogTemplate>
+    <p>是否确定购买该作品？</p>
+    <mat-list>
+      <mat-list-item class="desc">
+        <h3 mat-line>价格</h3>
+        <p mat-line class="secondary-text">{{data.price}} XEM</p>
+      </mat-list-item>
+    </mat-list>
+
+    <div style="text-align: right;">
+      <button mat-button type="button" style="margin-right: 12px;" (click)="closeDialog()">取消</button>
+      <button mat-raised-button color="accent" (click)="onShop(data.assetid)">确定</button>
+    </div>
+  </ng-template>
+  <ng-template #transformTemplate>
+    <p>是否转让该作品？</p>
+    <mat-form-field style="width: 100%">
+      <mat-label>价格</mat-label>
+      <input matInput [(ngModel)]="price" type="number" max="10">
+    </mat-form-field>
+    <mat-slider color="primary" value="10" [(ngModel)]="price" style="width: 100%;padding: 0;" thumbLabel aria-label="Primary color slider"></mat-slider>
+
+    <div style="text-align: right;">
+      <button mat-button type="button" style="margin-right: 12px;" (click)="closeDialog()">取消</button>
+      <button mat-raised-button color="primary" (click)="onSell(data.assetid)">确定</button>
+    </div>
+  </ng-template>
+  <ng-template #videoTemplate>
+    <video controls [src]="data.video_url" width="100%">
+      Sorry, your browser doesn't support embedded videos.
+    </video>
+  </ng-template>
+</div>

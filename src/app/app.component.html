@@ -1,21 +1,71 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
-<router-outlet></router-outlet>
+<mat-sidenav-container id="sidenav-container">
+  <mat-toolbar id="toolbar" color="primary">
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="end.toggle(undefined, 'mouse')">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div class="spacer"></div>
+      <img src="../assets/logo.png" style="width: 100px;" alt="">
+      <div class="spacer"></div>
+      <button mat-icon-button routerLink="/" [ngStyle]="{visibility: inHome ? 'hidden' : 'visible'}">
+        <mat-icon>home</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-sidenav id="sidenav" #end>
+    <div>
+      <div style="text-align: center;">
+        <div *ngIf="user && user.id">
+          <img mat-card-avatar class="user-avatar" src="../assets/mock/avatar1.jpg" />
+          <button mat-button class="copy" (click)="onShowMessage('复制成功:' + user.address)" [attr.data-clipboard-text]="user.address"
+            style="width: 100%;border-radius: 0;">
+            <mat-icon style="font-size:12px;width: 12px;height: 12px;vertical-align: text-bottom;">file_copy</mat-icon>
+            {{ address }}
+          </button>
+        </div>
+        <div *ngIf="!user || !user.id">
+          <div class="user-avatar">
+            <mat-icon>person</mat-icon>
+          </div>
+          <button style="margin-top: 32px;" mat-raised-button color="accent" (click)="end.toggle(undefined, 'mouse')"
+            [routerLink]="[{ outlets: { popup: ['login'] } }]">登陆</button>
+        </div>
+      </div>
+      <mat-nav-list *ngIf="user && user.id">
+        <a mat-list-item>
+          <button mat-icon-button disabled>
+            <mat-icon>account_balance_wallet</mat-icon>
+          </button>
+          <div style="width: 100%;">
+            <span style="float: left;">钱包余额</span>
+            <span class="balance">{{user.balance}} XEM</span>
+          </div>
+        </a>
+        <mat-divider></mat-divider>
+        <a mat-list-item routerLink="/" routerLinkActive="active" (click)="end.toggle(undefined, 'mouse')">
+          <button mat-icon-button (click)="infoClicked=!infoClicked">
+            <mat-icon>home</mat-icon>
+          </button>
+          <span>首页</span>
+        </a>
+        <a mat-list-item [routerLink]="['/profile', user.address]" routerLinkActive="active" (click)="end.toggle(undefined, 'mouse')">
+          <button mat-icon-button (click)="infoClicked=!infoClicked">
+            <mat-icon>list</mat-icon>
+          </button>
+          <span>我的艺术品</span>
+        </a>
+      </mat-nav-list>
+      <footer class="sidenav-footer">
+        <span class="team">
+          <mat-icon class="copyright">copyright</mat-icon>野狼队</span>
+      </footer>
+    </div>
+
+  </mat-sidenav>
+  <div id="page-root">
+    <router-outlet #routerOutlet="outlet"></router-outlet>
+  </div>
+  <router-outlet name="popup"></router-outlet>
+</mat-sidenav-container>

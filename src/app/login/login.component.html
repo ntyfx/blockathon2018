@@ -1,0 +1,16 @@
+<ng-template #loginTemplate>
+  <p>登录</p>
+  <mat-form-field style="width: 100%">
+    <mat-label>用户名</mat-label>
+    <input matInput [(ngModel)]="username">
+  </mat-form-field>
+  <mat-form-field style="width: 100%">
+    <mat-label>密码</mat-label>
+    <input matInput [(ngModel)]="password" type="password">
+  </mat-form-field>
+
+  <div style="text-align: right;">
+    <button mat-button type="button" style="margin-right: 12px;" (click)="cancel()">取消</button>
+    <button mat-raised-button color="primary" (click)="doLogin()">确定</button>
+  </div>
+</ng-template>
